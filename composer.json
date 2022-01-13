@@ -27,10 +27,11 @@
 			"Sovit\\": "lib"
 		}
 	},
-	"require": {
-	},
 	"type": "library",
 	"archive": {
-		"exclude": ["/example", "/.github"]
+		"exclude": ["/example", "/.github", "/.editorconfig"]
+	},
+	"require": {
+		"rmccue/requests": "^2.0"
 	}
 }

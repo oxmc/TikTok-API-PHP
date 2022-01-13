@@ -27,16 +27,9 @@ $challenge=$api->getChallenge("foryourpage");
 
 $challengeFeed=$api->getChallengeFeed("foryourpage",$maxCursor=0);
 
-$musc=$api->getMusic("6798898508385585925");
-
-$musicFeed=$api->getMusicFeed("6798898508385585925",$maxCursor=0);
-
 $videoData=$api->getVideoByID("6829540826570296577");
 
 $videoData=$api->getVideoByUrl("https://www.tiktok.com/@zachking/video/6829303572832750853");
-
-$noWatermark=$api->getNoWatermark("https://www.tiktok.com/@zachking/video/6829303572832750853");
-
 ```
 
 # Available Options
@@ -48,9 +41,6 @@ $api=new \Sovit\TikTok\Api(array(
 	"proxy-username"	=> false,
 	"proxy-password"	=> false,
 	"cache-timeout"		=> 3600 // 1 hours cache timeout
-	"cookie_file"		=> sys_get_temp_dir() . 'tiktok.txt', // cookie file path
-	"nwm_endpoint"		=> "https://my-api.example.com" // private api endpoint
-	"api_key"		=> "API_KEY" // see below on how to get API key
 	), $cache_engine=false);
 ```
 
@@ -98,7 +88,6 @@ It's highly recommended to use `Rotating` Proxy service if you are making lots o
 - `getMusicFeed` - Get music feed `getMusicFeed($music_id,$maxCursor)`
 - `getVideoByID` - Get video by ID `getVideoByID($video_id)`
 - `getVideoByUrl` - Get video by URL `getVideoByUrl($video_url)`
-- `getNoWatermark` - Get no watermark for video by URL `getNoWatermark($video_url)` *(only works for videos before 28th July 2020). Private API server availbale on subscription that works for all TikTok posts*
 
 `$maxCursor` defaults to `0`, and is offset for results page. `maxCursor` for next page is exposed on current page call feed data.
 
@@ -107,26 +96,12 @@ It's highly recommended to use `Rotating` Proxy service if you are making lots o
 - SOCKS proxy support
 - Multiple proxy support (taking turns in round-robin. Act as rotating proxy)
 
-# Non-watermarked video url for newer videos
-TikTok videos don't have video id as meta data on watermarked video posted after ~24-28 July 2020. Check below for subscription plans for non watermarked video API.
-
-## Pirvate API server subscription pricing
-| Package | Cost(per month) | Quota(requests per day) |
-| ------- | :---------------: | --------------: |
-| **Pro** *(popular)* | 50 USD | 5,000 |
-| **Mega** | 100 USD | 12,000 |
-| **Ultra** | custom pricing | ? |
-
 ## Looking for api source code?
 Source code for TikTok Mobile App API available.
 
 **Available variations**
 - PHP *(standalone version with no external dependency)*
 - NodeJs *(standalone version with no external dependency)*
-
-# Private APP API wrapper
-
-https://github.com/ssovit/TikTok-Private-API-PHP
 
 # Contact
 **Use issues ticket if you have questions regarding this library. Only inquiries regarding private API or custom works will be responded.**
