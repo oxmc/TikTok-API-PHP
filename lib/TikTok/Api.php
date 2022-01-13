@@ -1,9 +1,9 @@
 <?php
 namespace Sovit\TikTok;
 
-use CurlHandle;
-use WpOrg\Requests\Session;
-use WpOrg\Requests\Hooks;
+use \CurlHandle;
+use \WpOrg\Requests\Session;
+use \WpOrg\Requests\Hooks;
 
 /**
  * TikTok API Class

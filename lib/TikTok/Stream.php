@@ -1,9 +1,7 @@
 <?php
-
 namespace Sovit\TikTok;
 
-class Stream
-{
+class Stream {
     protected $buffer_size = 256 * 1024;
     protected $headers = [];
     protected $headers_sent = false;
