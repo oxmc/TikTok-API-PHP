@@ -238,7 +238,7 @@ class Api {
         }
         $username = urlencode($username);
         $request = $this->remote_call("/@{$username}", 'GET', false);
-        $result = Helper::setMeta($request->http_success, $request->code, 0);
+        $result = Helper::setMeta($request->http_success, $request->code, null);
         if ($result['meta']->success) {
             $json_string = Helper::string_between($request->data, "window['SIGI_STATE']=", ";window['SIGI_RETRY']=");
             $jsonData = json_decode($json_string);
@@ -317,12 +317,7 @@ class Api {
      * @return object
      */
     public function getVideoByID(string $video_id): object {
-        $url = '';
-        if (is_numeric($video_id)) {
-            $url = 'https://m.tiktok.com/v/' . $video_id . '.html';
-        } else {
-            $url = 'https://vm.tiktok.com/' . $video_id;
-        }
+        $url = is_numeric($video_id) ? 'https://m.tiktok.com/v/' . $video_id . '.html' : 'https://vm.tiktok.com/' . $video_id;
         return $this->getVideoByUrl($url);
     }
     /**
@@ -346,7 +341,7 @@ class Api {
         }
 
         $request = $this->remote_call($url, 'GET', false);
-        $result = Helper::setMeta($request->http_success, $request->code, 0);
+        $result = Helper::setMeta($request->http_success, $request->code, null);
         if ($result['meta']->success) {
             $json_string = Helper::string_between($request->data, "window['SIGI_STATE']=", ";window['SIGI_RETRY']=");
             $jsonData = json_decode($json_string);
@@ -373,10 +368,6 @@ class Api {
                 }
                 return (object) $result;
             }
-        } else {
-            $tiktok_code = '10204';
-            $result['meta']->tiktok_code = $tiktok_code;
-            $result['meta']->tiktok_msg = Codes::list[$tiktok_code];
         }
         return (object) $result;
     }

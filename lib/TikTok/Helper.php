@@ -93,14 +93,14 @@ class Helper {
         return "68" . $randomString;
     }
 
-    public static function setMeta(bool $isSuccess, int $http_code, int|string $tiktok_code): array {
+    public static function setMeta(bool $isSuccess, int $http_code, int|string|null $tiktok_code): array {
         $keys = array_keys(Codes::list);
         $result = [
             'meta' => (object) [
                 'success' => $isSuccess && $tiktok_code == 0,
                 'http_code' => $http_code,
                 'tiktok_code' => $tiktok_code,
-                'tiktok_msg' => in_array($tiktok_code, $keys) ? Codes::list[$tiktok_code] : 'Unknown error'
+                'tiktok_msg' => $tiktok_code ? (in_array($tiktok_code, $keys) ? Codes::list[$tiktok_code] : 'Unknown error') : null
             ]
         ];
         return $result;
