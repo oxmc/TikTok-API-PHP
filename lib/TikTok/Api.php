@@ -237,14 +237,19 @@ class Api {
             }
         }
         $username = urlencode($username);
-        $request = $this->remote_call("/api/user/detail", 'GET', true, [
-            'uniqueId' => $username
-        ]);
-        $result = Helper::setMeta($request->http_success, $request->code, $request->data->statusCode);
+        $request = $this->remote_call("/@{$username}", 'GET', false);
+        $result = Helper::setMeta($request->http_success, $request->code, 0);
         if ($result['meta']->success) {
-            $result = array_merge($result, [
-                'userinfo' => $request->data->userInfo
-            ]);
+            $json_string = Helper::string_between($request->data, "window['SIGI_STATE']=", ";window['SIGI_RETRY']=");
+            $jsonData = json_decode($json_string);
+            if (isset($jsonData->UserModule)) {
+                $result = array_merge($result, [
+                    'userinfo' => (object) [
+                        'user' => $jsonData->UserModule->users->{$username},
+                        'stats' => $jsonData->UserModule->stats->{$username},
+                    ]
+                ]);
+            }
             if ($this->cacheEnabled) {
                 $this->cacheEngine->set($cacheKey, $result, $this->_config['cache-timeout']);
             }
@@ -342,7 +347,7 @@ class Api {
 
         $request = $this->remote_call($url, 'GET', false);
         $result = Helper::setMeta($request->http_success, $request->code, 0);
-        if ($result['meta']->success && !empty($result)) {
+        if ($result['meta']->success) {
             $json_string = Helper::string_between($request->data, "window['SIGI_STATE']=", ";window['SIGI_RETRY']=");
             $jsonData = json_decode($json_string);
             if (isset($jsonData->ItemModule, $jsonData->ItemList, $jsonData->UserModule)) {
