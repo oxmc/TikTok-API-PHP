@@ -385,7 +385,8 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
                 }
             }
             $username = urlencode($username);
-            $result = $this->remote_call("https://www.tiktok.com/@{$username}?lang=en", false);
+            $param = is_numeric($username) ? "userId" : "uniqueId";
+            $result = $this->remote_call("https://www.tiktok.com/api/user/detail/?{$param}={$username}", false);
             if (preg_match('/<script id="__NEXT_DATA__"([^>]+)>([^<]+)<\/script>/', $result, $matches)) {
                 $result = json_decode($matches[2], false);
                 if (isset($result->props->pageProps->userInfo)) {
